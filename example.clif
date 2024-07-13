@@ -1,0 +1,84 @@
+set opt_level=speed_and_size
+set tls_model=elf_gd
+set libcall_call_conv=isa_default
+set probestack_size_log2=12
+set probestack_strategy=inline
+set bb_padding_log2_minus_one=0
+set regalloc_checker=0
+set regalloc_verbose_logs=0
+set enable_alias_analysis=1
+set enable_verifier=0
+set enable_pcc=0
+set is_pic=1
+set use_colocated_libcalls=0
+set enable_float=1
+set enable_nan_canonicalization=0
+set enable_pinned_reg=0
+set enable_atomics=1
+set enable_safepoints=0
+set enable_llvm_abi_extensions=1
+set unwind_info=1
+set preserve_frame_pointers=0
+set machine_code_cfg_info=0
+set enable_probestack=1
+;set probestack_func_adjusts_sp=0
+set enable_jump_tables=1
+set enable_heap_access_spectre_mitigation=1
+set enable_table_access_spectre_mitigation=1
+set enable_incremental_compilation_cache_checks=0
+target x86_64 has_sse3=1 has_ssse3=1 has_sse41=1 has_sse42=1 has_avx=0 has_avx2=0 has_fma=0 has_avx512bitalg=0 has_avx512dq=0 has_avx512vl=0 has_avx512vbmi=0 has_avx512f=0 has_popcnt=1 has_bmi1=0 has_bmi2=0 has_lzcnt=0
+
+
+function u0:0(i32, i32, i32) -> i32 system_v {
+; symbol _ZN6sample3fib17h04a57acab04d56feE
+; instance Instance { def: Item(DefId(0:4 ~ sample[1261]::fib)), args: [] }
+; abi FnAbi { args: [ArgAbi { layout: TyAndLayout { ty: u32, layout: Layout { size: Size(4 bytes), align: AbiAndPrefAlign { abi: Align(4 bytes), pref: Align(4 bytes) }, abi: Scalar(Initialized { value: Int(I32, false), valid_range: 0..=4294967295 }), fields: Primitive, largest_niche: None, variants: Single { index: 0 }, max_repr_align: None, unadjusted_abi_align: Align(4 bytes) } }, mode: Direct(ArgAttributes { regular: NoUndef, arg_ext: None, pointee_size: Size(0 bytes), pointee_align: None }) }, ArgAbi { layout: TyAndLayout { ty: u32, layout: Layout { size: Size(4 bytes), align: AbiAndPrefAlign { abi: Align(4 bytes), pref: Align(4 bytes) }, abi: Scalar(Initialized { value: Int(I32, false), valid_range: 0..=4294967295 }), fields: Primitive, largest_niche: None, variants: Single { index: 0 }, max_repr_align: None, unadjusted_abi_align: Align(4 bytes) } }, mode: Direct(ArgAttributes { regular: NoUndef, arg_ext: None, pointee_size: Size(0 bytes), pointee_align: None }) }, ArgAbi { layout: TyAndLayout { ty: u32, layout: Layout { size: Size(4 bytes), align: AbiAndPrefAlign { abi: Align(4 bytes), pref: Align(4 bytes) }, abi: Scalar(Initialized { value: Int(I32, false), valid_range: 0..=4294967295 }), fields: Primitive, largest_niche: None, variants: Single { index: 0 }, max_repr_align: None, unadjusted_abi_align: Align(4 bytes) } }, mode: Direct(ArgAttributes { regular: NoUndef, arg_ext: None, pointee_size: Size(0 bytes), pointee_align: None }) }], ret: ArgAbi { layout: TyAndLayout { ty: u32, layout: Layout { size: Size(4 bytes), align: AbiAndPrefAlign { abi: Align(4 bytes), pref: Align(4 bytes) }, abi: Scalar(Initialized { value: Int(I32, false), valid_range: 0..=4294967295 }), fields: Primitive, largest_niche: None, variants: Single { index: 0 }, max_repr_align: None, unadjusted_abi_align: Align(4 bytes) } }, mode: Direct(ArgAttributes { regular: NoUndef, arg_ext: None, pointee_size: Size(0 bytes), pointee_align: None }) }, c_variadic: false, fixed_count: 3, conv: Rust, can_unwind: false }
+
+; kind  loc.idx   param    pass mode                            ty
+; ssa   _0    u32                               4b 4, 4              var=0
+; ret   _0      -          Direct(ArgAttributes { regular: NoUndef, arg_ext: None, pointee_size: Size(0 bytes), pointee_align: None }) u32
+; arg   _1      = v0       Direct(ArgAttributes { regular: NoUndef, arg_ext: None, pointee_size: Size(0 bytes), pointee_align: None }) u32
+; arg   _2      = v1       Direct(ArgAttributes { regular: NoUndef, arg_ext: None, pointee_size: Size(0 bytes), pointee_align: None }) u32
+; arg   _3      = v2       Direct(ArgAttributes { regular: NoUndef, arg_ext: None, pointee_size: Size(0 bytes), pointee_align: None }) u32
+
+; kind  local ty                              size align (abi,pref)
+; ssa   _1    u32                               4b 4, 4              var=1
+; ssa   _2    u32                               4b 4, 4              var=2
+; ssa   _3    u32                               4b 4, 4              var=3
+; ssa   _4    u32                               4b 4, 4              var=4
+; ssa   _5    u32                               4b 4, 4              var=5
+
+    sig0 = (i32, i32, i32) -> i32 system_v
+    fn0 = colocated u0:0 sig0 ; Instance { def: Item(DefId(0:4 ~ sample[1261]::fib)), args: [] }
+
+block0(v0: i32, v1: i32, v2: i32):
+    v5 -> v0
+    v4 -> v1
+    v6 -> v1
+    v3 -> v2
+    v8 -> v2
+    jump block1
+
+block1:
+    brif.i32 v2, block3, block2
+
+block2:
+    return v1
+
+block3:
+    v7 = iadd.i32 v0, v1
+; write_cvalue: Var(_4, var4): u32 <- ByVal(v7): u32
+; _5 = Sub(_3, const 1_u32)
+    v9 = iconst.i32 1
+    v10 = isub.i32 v2, v9  ; v9 = 1
+; write_cvalue: Var(_5, var5): u32 <- ByVal(v10): u32
+; 
+; _0 = fib(move _2, move _4, move _5)
+    v11 = call fn0(v1, v7, v10)
+    v12 -> v11
+; write_cvalue: Var(_0, var0): u32 <- ByVal(v11): u32
+    jump block4
+
+block4:
+    return v11
+}
